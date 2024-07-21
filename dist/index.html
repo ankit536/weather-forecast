@@ -8,21 +8,36 @@
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/weather-forecast/src/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Weather App</title>
 </head>
 
 <body>
-    <div class="container h-screen w-full">
-        <div class="header w-full flex flex-wrap items-center flex-col">
-            <div class="bg-gray-200 w-full text-center">
-                <h1 class="text-3xl font-bold text-black my-1">Weather App</h1>
+    <div class="container h-screen w-full sm:h-auto sm:min-w-full">
+        <!-- Header -->
+        <!-- Heading -->
+        <div class="flex w-full flex-col flex-wrap items-center">
+            <div class="w-full text-center">
+                <h1 class="my-1 text-3xl font-bold text-black">Weather App</h1>
             </div>
-            <div class="bg-gray-100 w-full flex items-center justify-center p-2">
-                <input type="text" id="getInput" class="p-2 bg-white text-md border-none outline-none rounded-lg mx-2"
-                    placeholder="Enter City Name">
-                <button class="bg-gray-800 text-white text-md rounded-xl p-2" id="btn">Search</button>
+            <!-- Input With Button -->
+            <div class="flex w-full items-center justify-center border p-2">
+                <input type="text" id="cityInput"
+                    class="mx-2 w-3/4 rounded-lg border-2 p-2 text-sm outline-none transition focus:ring-2 md:w-1/4"
+                    placeholder="Enter City Name" />
+                <button
+                    class="mx-2 w-1/4 rounded-lg bg-gray-800 p-2 text-sm text-white ring-gray-400 hover:ring-2 hover:ring-offset-2 md:w-32"
+                    id="searchBtn"><i class="fa-solid fa-magnifying-glass mx-1 transition"></i>Search</button>
+            </div>
+            <!-- Current Location Button -->
+            <div class="flex w-full items-center justify-center border p-2">
+                <button
+                    class="mx-2 w-3/4 rounded-lg bg-gray-800 p-2 text-sm text-white ring-gray-400 transition hover:ring-2 hover:ring-offset-2 md:w-52"
+                    id="locationBtn"><i class="fa-solid fa-location-arrow mx-2"></i>Current Location</button>
             </div>
         </div>
+
+        <!-- Header -->
 
     </div>
 
