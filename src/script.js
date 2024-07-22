@@ -1,4 +1,9 @@
 const api_Key = "028907affaded5fff925cf5c42c8a4ea";
+window.addEventListener("load", () => {
+  getWeatherByCityName("New Delhi");
+  updateRecentCitiesDropdown();
+});
+
 document.getElementById("searchBtn").addEventListener("click", () => {
   const cityValue = document.getElementById("cityInput");
   const cityInput = cityValue.value.trim();
@@ -6,6 +11,7 @@ document.getElementById("searchBtn").addEventListener("click", () => {
     alert("Please Enter a city name");
   } else {
     getWeatherByCityName(cityInput);
+    addRecentCity(cityInput);
   }
 });
 document.getElementById("locationBtn").addEventListener("click", () => {
@@ -14,6 +20,12 @@ document.getElementById("locationBtn").addEventListener("click", () => {
     const longitude = position.coords.longitude;
     getWeatherBylocation(latitude, longitude);
   });
+});
+document.getElementById("recentDropdown").addEventListener("change", () => {
+  const cityInput = document.getElementById("recentDropdown").value;
+  if (cityInput) {
+    getWeatherByCityName(cityInput);
+  }
 });
 
 async function getWeatherByCityName(cityInput) {
@@ -77,7 +89,7 @@ function displayForecastData(forecastData) {
   dailyForecasts.forEach((forecast) => {
     const forecastElement = document.createElement("div");
     forecastElement.classList.add(
-      "my-2",
+      "mt-2",
       "flex",
       "h-auto",
       "w-full",
@@ -99,7 +111,9 @@ function displayForecastData(forecastData) {
         <div class="text-black">${formattedDate}</div>
         <div><img src="https://openweathermap.org/img/wn/${
           forecast.weather[0].icon
-        }@2x.png" alt='${forecast.weather[0].description}' class='w-auto'></div>
+        }@2x.png" alt='${
+      forecast.weather[0].description
+    }' class='w-auto md:w-1/2'></div>
         <div class="flex flex-col items-center">
         <p>Temp</p>
         <p class="text-orange-500">${Math.round(
@@ -117,3 +131,31 @@ function displayForecastData(forecastData) {
     forecastContainer.appendChild(forecastElement);
   });
 }
+
+function addRecentCity(cityInput) {
+  let recentCities = JSON.parse(localStorage.getItem("recentCities")) || [];
+  if (!recentCities.includes(cityInput)) {
+    recentCities.push(cityInput);
+    localStorage.setItem("recentCities", JSON.stringify(recentCities));
+  }
+  updateRecentCitiesDropdown();
+}
+
+function updateRecentCitiesDropdown() {
+  let recentCities = JSON.parse(localStorage.getItem("recentCities")) || [];
+  const recentCitiesDropdown = document.getElementById("recentDropdown");
+  recentCitiesDropdown.innerHTML = "";
+
+  if (recentCities.length > 0) {
+    recentCities.forEach((city) => {
+      let option = document.createElement("option");
+      option.value = city;
+      option.textContent = city;
+      recentCitiesDropdown.appendChild(option);
+    });
+    recentCitiesDropdown.classList.remove("hidden");
+  } else {
+    recentCitiesDropdown.classList.add("hidden");
+  }
+}
+updateRecentCitiesDropdown();

@@ -35,6 +35,12 @@
                     class="mx-2 w-3/4 rounded-lg bg-gray-800 p-2 text-sm text-white ring-gray-400 transition hover:ring-2 hover:ring-offset-2 md:w-52 md:text-xl"
                     id="locationBtn"><i class="fa-solid fa-location-arrow mx-2"></i>Current Location</button>
             </div>
+            <!-- select box -->
+            <div class="flex justify-center items-center p-2 w-full ">
+                <select id="recentDropdown" class="border-2 w-full rounded-lg md:w-1/4 p-2 md:text-xl">
+
+                </select>
+            </div>
         </div>
 
         <!-- Header -->
@@ -44,7 +50,7 @@
             <!-- Weather Card -->
             <div class="flex h-auto w-full flex-col justify-around overflow-hidden rounded-lg border bg-white p-2">
                 <!-- Weather Card City Name -->
-                <div class="my-5 w-full text-center text-4xl md:text-6xl">
+                <div class="mt-5 w-full text-center text-4xl md:text-6xl">
                     <h2 class="font-semibold" id="cityName"></h2>
                 </div>
                 <!-- Weather Card Icon -->
@@ -79,17 +85,16 @@
             <!-- Weather Card -->
 
             <!-- Forecast Card Outer -->
-            <div class="flex h-full w-full flex-col items-center overflow-hidden rounded-lg bg-cyan-950">
+            <div class="flex h-auto w-full flex-col items-center overflow-hidden rounded-lg bg-cyan-950">
                 <!-- Forecast Card Heading -->
-                <div class="my-2 w-full py-2 text-center">
+                <div class="my-2 w-full text-center">
                     <h2 class="text-2xl text-white">5 Days Weather Forecast</h2>
                 </div>
                 <!-- Forecast Card Inner -->
-                <div class="flex h-auto w-full flex-col items-center justify-evenly overflow-hidden rounded-lg p-2"
+                <div class="flex h-auto w-full flex-col items-center justify-evenly overflow-hidden rounded-lg p-2 md:p-4 text-lg  xl:text-xl"
                     id="forecastCard">
                     <!-- Forecast Card Weather Detail Card -->
                     <!-- Add dynamically forecast card of 5 days -->
-                    <!-- card 2 -->
                 </div>
             </div>
             <!-- Forecast Card Outer -->
