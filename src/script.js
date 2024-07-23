@@ -1,9 +1,11 @@
 const api_Key = "028907affaded5fff925cf5c42c8a4ea";
+// Window load show default weather
 window.addEventListener("load", () => {
   getWeatherByCityName("New Delhi");
   updateRecentCitiesDropdown();
 });
 
+// Search button click
 document.getElementById("searchBtn").addEventListener("click", () => {
   const cityValue = document.getElementById("cityInput");
   const cityInput = cityValue.value.trim();
@@ -11,9 +13,9 @@ document.getElementById("searchBtn").addEventListener("click", () => {
     alert("Please Enter a city name");
   } else {
     getWeatherByCityName(cityInput);
-    addRecentCity(cityInput);
   }
 });
+// Location button click
 document.getElementById("locationBtn").addEventListener("click", () => {
   navigator.geolocation.getCurrentPosition((position) => {
     const latitude = position.coords.latitude;
@@ -21,27 +23,34 @@ document.getElementById("locationBtn").addEventListener("click", () => {
     getWeatherBylocation(latitude, longitude);
   });
 });
+// recent dropdown
 document.getElementById("recentDropdown").addEventListener("change", () => {
   const cityInput = document.getElementById("recentDropdown").value;
   if (cityInput) {
     getWeatherByCityName(cityInput);
   }
 });
-
+// get wether from input field
 async function getWeatherByCityName(cityInput) {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${api_Key}`;
   const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityInput}&appid=${api_Key}`;
   try {
     const response = await fetch(url);
+    if (!response.ok) {
+      alert("No City Found");
+      return;
+    }
     const data = await response.json();
     const forecastResponse = await fetch(forecastUrl);
     const forecastData = await forecastResponse.json();
     displayWeatherData(data);
     displayForecastData(forecastData);
+    addRecentCity(cityInput);
   } catch (error) {
-    console.log(error);
+    console.log("Error fetching Entered City Data:", error);
   }
 }
+// get weather by clicking location button
 async function getWeatherBylocation(latitude, longitude) {
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${api_Key}`;
   const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${api_Key}`;
@@ -54,10 +63,10 @@ async function getWeatherBylocation(latitude, longitude) {
     displayWeatherData(data);
     displayForecastData(forecastData);
   } catch (error) {
-    console.error("Error fetching weather data:", error);
+    console.error("Error fetching Location data:", error);
   }
 }
-
+// show weather
 function displayWeatherData(data) {
   document.getElementById("cityName").innerText = data.name;
   document.getElementById(
@@ -77,7 +86,7 @@ function displayWeatherData(data) {
     "humidity"
   ).innerHTML = `<i class="fa-solid fa-droplet"></i> ${data.main.humidity}%`;
 }
-
+// show forecast weather
 function displayForecastData(forecastData) {
   const forecastContainer = document.getElementById("forecastCard");
   forecastContainer.innerHTML = "";
@@ -126,12 +135,12 @@ function displayForecastData(forecastData) {
         </div>
         <div class="flex flex-col items-center">
         <p>Humidity</p>
-        <p class="text-sky-500">${forecast.wind.speed}%</p>
+        <p class="text-sky-500">${forecast.main.humidity}%</p>
         </div>`;
     forecastContainer.appendChild(forecastElement);
   });
 }
-
+// add recent city in dropdown and save into storage
 function addRecentCity(cityInput) {
   let recentCities = JSON.parse(localStorage.getItem("recentCities")) || [];
   if (!recentCities.includes(cityInput)) {
@@ -140,7 +149,7 @@ function addRecentCity(cityInput) {
   }
   updateRecentCitiesDropdown();
 }
-
+// update recent city in dropdown
 function updateRecentCitiesDropdown() {
   let recentCities = JSON.parse(localStorage.getItem("recentCities")) || [];
   const recentCitiesDropdown = document.getElementById("recentDropdown");
@@ -158,4 +167,5 @@ function updateRecentCitiesDropdown() {
     recentCitiesDropdown.classList.add("hidden");
   }
 }
+// call update recent cities dropdown on load
 updateRecentCitiesDropdown();
